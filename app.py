@@ -19,6 +19,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
 handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
 
+
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -39,7 +40,7 @@ def handle_message(event):
 
     reply = f"Your UID: {user_id}\nYou said: {user_message}"
     print(reply)
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
+    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
 
 # @handler.add(MessageEvent, message=TextMessage)
 # def handle_message(event):
