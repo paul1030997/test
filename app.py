@@ -19,17 +19,18 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
 handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
 
-# @app.route("/callback", methods=['POST'])
-# def callback():
-#     signature = request.headers['X-Line-Signature']
-#     body = request.get_data(as_text=True)
+@app.route("/callback", methods=['POST'])
+def callback():
+    signature = request.headers['X-Line-Signature']
+    body = request.get_data(as_text=True)
+    print(body)
 
-#     try:
-#         handler.handle(body, signature)
-#     except InvalidSignatureError:
-#         abort(400)
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
 
-#     return 'OK'
+    return 'OK'
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -38,7 +39,7 @@ def handle_message(event):
 
     reply = f"Your UID: {user_id}\nYou said: {user_message}"
     print(reply)
-    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
 
 # @handler.add(MessageEvent, message=TextMessage)
 # def handle_message(event):
